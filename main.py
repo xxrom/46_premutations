@@ -72,3 +72,6 @@ print("ans", ans, ans == nAns)
 # 2 = [1, 3]
 # 2, 0
 # 2, 1
+
+# Runtime: 32 ms, faster than 95.62% of Python3 online submissions for Permutations.
+# Memory Usage: 13.2 MB, less than 80.36% of Python3 online submissions for Permutations.
