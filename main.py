@@ -3,48 +3,13 @@ from typing import List
 
 class Solution:
 
-  def getUniqParis(self, size: int):
-    uniq = {}
-    for i in range(0, size):
-      for j in range(0, size):
-        if i == j:
-          continue
-        one = i
-        two = j
-
-        if one > two:
-          one, two = two, one
-
-        uniq[str(one) + ' ' + str(two)] = True
-
-    return [[int(num) for num in item.split(' ')] for item in uniq.keys()]
-
-  def swap(self, numsOriginal: List[int], i: int, j: int):
-    nums = numsOriginal.copy()
-
-    temp = nums[i]
-    nums[i] = nums[j]
-    nums[j] = temp
-
-    return nums
-
-  def permuteChanged(self, nums: List[int]) -> List[List[int]]:
-    ans = [nums]
-
-    index = 0
-    while index < len(nums) * len(nums) / 2:
-      for i in range(0, len(nums) - 1):
-        for j in range(i + 1, len(nums)):
-          ans.append(self.swap(ans[index], i, j))
-      index += 1
-
-    return ans
-
-  def permute(self, nums: List[int]) -> List[List[int]]:
+  # Each nums item List should be swaped in 'j' ways and added to ans
+  # and after it again and again 'i'-1 times
+  # hard to understand why it's working =) ...............
+  def permuteWorking(self, nums: List[int]) -> List[List[int]]:
     ans = [nums]
 
     for i in range(0, len(nums) - 1):
-
       for one in ans.copy():
         for j in range(i + 1, len(nums)):
           ans.append(self.swap(one, i, j))
@@ -54,6 +19,28 @@ class Solution:
   # TODO: dfs (wide spread search), path and nums
   # make the path and when reach the leaf => add to ans
   # def dfs()
+  def allDFS(self, nums: List[int], path: List[int],
+             ans: List[List[int]]) -> List[List[int]]:
+    if len(nums) == 0:
+      ans.append(path)
+      return ans
+
+    # print(nums)
+    # print(path)
+    # print(ans)
+
+    for i, item in enumerate(nums):
+      otherNums = nums[:i] + nums[i + 1:]
+      newPath = path + [int(item)]
+      # print(i, item, otherNums, newPath)
+      self.allDFS(otherNums, newPath, ans)
+    # print('___')
+
+    return ans
+
+  def permute(self, nums: List[int]) -> List[List[int]]:
+    return self.allDFS(nums, [], [])  # I understand this solution =)
+    # return self.permuteWorking(nums) # I didn't understand this solutions =)
 
 
 my = Solution()
